@@ -12,6 +12,63 @@ XSKILL 是一个用于沉淀个人 Agent skills 的长期合集仓库。
 - 用工程化方式管理模板、参考资料和辅助脚本。
 - 让未来新增 skill 可以被独立维护、版本化和持续改进。
 
+## 本地部署/使用方法
+
+这个仓库本身不是需要启动服务的应用，而是一组可被 Codex/Agent 读取的 skill 文件。部署到本地的核心流程是：拉取仓库，然后把需要使用的 skill 放到 Codex 的 skills 目录，或直接在本地工作区中引用。
+
+### 1. 拉取仓库
+
+```powershell
+git clone https://github.com/xiao-sober/XSKILL.git
+cd XSKILL
+```
+
+如果本地已经有仓库，后续更新使用：
+
+```powershell
+git pull origin main
+```
+
+### 2. 部署到 Codex skills 目录
+
+推荐把需要长期使用的 skill 复制到 Codex 的 skills 目录。Windows PowerShell 示例：
+
+```powershell
+$codexSkills = if ($env:CODEX_HOME) { Join-Path $env:CODEX_HOME "skills" } else { Join-Path $HOME ".codex\skills" }
+New-Item -ItemType Directory -Force $codexSkills | Out-Null
+
+Copy-Item -Recurse -Force ".\project-scaffold-skill" $codexSkills
+Copy-Item -Recurse -Force ".\roast-my-code-skill" $codexSkills
+Copy-Item -Recurse -Force ".\daily-dev-diary-skill" $codexSkills
+```
+
+macOS/Linux 示例：
+
+```bash
+CODEX_SKILLS="${CODEX_HOME:-$HOME/.codex}/skills"
+mkdir -p "$CODEX_SKILLS"
+
+cp -R ./project-scaffold-skill "$CODEX_SKILLS/"
+cp -R ./roast-my-code-skill "$CODEX_SKILLS/"
+cp -R ./daily-dev-diary-skill "$CODEX_SKILLS/"
+```
+
+如果希望本地仓库更新后 skill 自动同步，也可以改用符号链接。Windows 需要在支持创建符号链接的终端中执行：
+
+```powershell
+New-Item -ItemType SymbolicLink -Path (Join-Path $codexSkills "daily-dev-diary-skill") -Target (Resolve-Path ".\daily-dev-diary-skill")
+```
+
+### 3. 验证 skill 可用
+
+部署后可以在 Codex 中用类似请求触发：
+
+- `使用 daily-dev-diary-skill 根据今天的 git log 写开发日记`
+- `使用 roast-my-code-skill 帮我吐槽并 review 这段代码`
+- `使用 project-scaffold-skill 为当前项目生成一个设置页功能骨架`
+
+如果 skill 没有被自动发现，优先检查目录是否位于 `$CODEX_HOME/skills` 或 `~/.codex/skills` 下，并确认每个 skill 目录内都有 `SKILL.md`。
+
 ## 当前内容
 
 ### `project-scaffold-skill`
