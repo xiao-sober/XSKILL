@@ -1,0 +1,7 @@
+interface:
+  display_name: "Roast My Code"
+  short_description: "Humorous, bounded, professional code critique"
+  default_prompt: "Use $roast-my-code-skill to review this code with useful, bounded roast-style feedback."
+
+policy:
+  allow_implicit_invocation: true
