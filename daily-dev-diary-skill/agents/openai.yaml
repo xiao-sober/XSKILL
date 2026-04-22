@@ -1,0 +1,7 @@
+interface:
+  display_name: "Daily Dev Diary"
+  short_description: "Draft factual dev diaries from notes and git activity."
+  default_prompt: "Use $daily-dev-diary-skill to turn today's notes and git activity into a factual developer diary."
+
+policy:
+  allow_implicit_invocation: true
