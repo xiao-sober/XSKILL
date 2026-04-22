@@ -1,0 +1,7 @@
+interface:
+  display_name: "React TS FastAPI Scaffold"
+  short_description: "Generate conservative React + TypeScript and FastAPI feature skeletons."
+  default_prompt: "Use $react-ts-fastapi-feature-scaffold to generate a minimal full-stack feature skeleton that follows this repository's existing style."
+
+policy:
+  allow_implicit_invocation: true
